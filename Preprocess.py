@@ -1,7 +1,18 @@
 #Where we put the data processing code#
-import data.file
-def read():
+import pandas as pd
+from sklearn.model_selection import train_test_split:
 
-def process(text):
+class Process
+  def __init__(self, path):
+    self.path=path
+    self.dataset=None
+    
+  def read(self):
+    self.dataset=pd.read_csv(self.path)
+    return self.dataset
 
-def split(X,Y,ratio):
+  def process(self):
+    #TO DO#
+  
+  def split(X,Y,ratio):
+    return train_test_split(X,Y,test_size=ratio,random_state=42)

@@ -13,6 +13,11 @@ class Process
     self.dataset=pd.read_csv(self.path)
     return self.dataset
 
+  def features(self):
+    print("Features available")
+    for column in self.df.columns:
+      print(", ", column)
+
   def process(self,ans):
       self.X = self.df.drop(ans, axis=1,)
       self.y = self.df[ans]

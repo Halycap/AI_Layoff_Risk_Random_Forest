@@ -10,7 +10,7 @@ Pro.read()
 Pro.features()
 target=ask_target()
 #extracts X and y as well as split it to prepare to put in scikit
-X,y=Pro.process(target)
-X_train,X_test,Y_train,Y_test=pro.split(X,y,0.2)
+Pro.process(target)
+X_train,X_test,Y_train,Y_test=pro.split(0.2)
 
 #training

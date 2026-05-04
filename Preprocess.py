@@ -12,9 +12,9 @@ class Process
     return self.dataset
 
   def features(self):
-    print("Features available")
+    print("Features available:")
     for column in self.df.columns:
-      print(", ", column)
+      print(column,"/")
 
   def ask_target(self):
     target_column = input("Feature Predicting: ")

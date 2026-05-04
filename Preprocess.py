@@ -8,7 +8,10 @@ class Process
     self.dataset=None
     self.X=None
     self.Y=None
-    self.split=None
+    self.X_train = None
+    self.X_test = None
+    self.y_train = None
+    self.y_test = None
     
   def read(self):
     self.dataset=pd.read_csv(self.path)
@@ -28,5 +31,5 @@ class Process
     self.y = self.df[ans]
     return print("process success")
   
-  def split(X,Y,ratio):
-    self.split = train_test_split(X,Y,test_size=ratio,random_state=42)
+  def split(self, ratio):
+    self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X,self.y,test_size=ratio,random_state=42)

@@ -18,6 +18,10 @@ class Process
     for column in self.df.columns:
       print(", ", column)
 
+  def ask_target(self):
+    target_column = input("Feature Predicting: ")
+    return target_column
+
   def process(self,ans):
       self.X = self.df.drop(ans, axis=1,)
       self.y = self.df[ans]

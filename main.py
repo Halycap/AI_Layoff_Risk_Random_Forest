@@ -26,7 +26,8 @@ def dataprocess():
   target=Pro.ask_target()
   #extracts X and y as well as split it to prepare to put in scikit
   Pro.process(target)
-  X_train,X_test,Y_train,Y_test=Pro.split(0.2)
+  Pro.split(0.2)
+  
   return 0
 
 #training

@@ -3,12 +3,12 @@ from Preprocess import Process
 import os
 
 #THE PROCESS BLOCK#
-path = ""
+path = "data/student_performance_updated_1000.csv"
 feature_predict = ""
-training_ratio = ""
+test_ratio = "0.2"
 
 Pro=Process(path)
-Pro.process(feature_predict,training_ratio)
+Pro.process(feature_predict,test_ratio)
 
 #TRAINING BLOCK
 tree=RandomForestClassifier(n_estimators=100, random_state=42)

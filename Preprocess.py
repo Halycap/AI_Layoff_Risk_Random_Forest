@@ -49,6 +49,10 @@ class Process:
     
   def allocate(self,ans):
     self.X = self.dataset.drop(ans, axis=1,)
+
+    # converts text into numbers
+    self.X = pd.get_dummies(self.X)
+    
     self.y = self.df[ans]
     return print("allocated X and y")
   

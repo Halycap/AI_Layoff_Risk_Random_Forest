@@ -3,7 +3,7 @@ from Preprocess import Process
 import os
 
 #THE PROCESS BLOCK#
-default_path = "data/AI_Student_Life_Pakistan_2026.csv"
+path = ""
 feature_predict = ""
 training_ratio = ""
 

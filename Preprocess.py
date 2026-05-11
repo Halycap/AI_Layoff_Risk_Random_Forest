@@ -46,6 +46,16 @@ class Process:
   def clean(self):
     self.clean_column()
     self.clean_row()
+
+  def fill(self):
+    feature_columns = self.dataset.columns.drop(target)
+    for column in feature_columns:
+      median_value = self.dataset[column].median()
+      self.dataset[column] = self.dataset[column].fillna(median_value)
+    return print("filled missing entries")
+
+  def encode(self):
+    return print("turned text to numbers")
     
   def allocate(self,ans):
     self.X = self.dataset.drop(ans, axis=1,)
@@ -65,6 +75,10 @@ class Process:
     self.read()
     print("filtering Dataset for unuseable features")
     self.clean()
+    print("attempting to fill missing data entries")
+    self.fill()
+    print("turning text entries to numbers")
+    self.encode()
     print("allocating X and y")
     self.allocate(target)
     print("splitting for testing and training")

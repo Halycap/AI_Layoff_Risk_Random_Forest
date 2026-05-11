@@ -4,7 +4,7 @@ import os
 
 #THE PROCESS BLOCK#
 path = "data/student_performance_updated_1000.csv"
-feature_predict = ""
+feature_predict = "FinalGrade"
 test_ratio = "0.2"
 
 Pro=Process(path)

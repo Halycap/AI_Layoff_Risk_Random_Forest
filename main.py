@@ -30,3 +30,5 @@ plot_tree(
   rounded=True,
   max_depth=3
 )
+plt.savefig("random_forest_tree.png", dpi=300, bbox_inches="tight)
+plt.show()

@@ -16,20 +16,26 @@ class Process
   def read(self):
     self.dataset=pd.read_csv(self.path)
     return print("read success")
-
-  def features(self):
-    print("Features available:")
-    for column in self.df.columns:
-      print(column,"/")
-
-  def ask_target(self):
-    target_column = input("Feature Predicting: ")
-    return target_column
-
-  def process(self,ans):
+    
+  def filter(self):
+    self.dataset
+    return print("filter success")
+    
+  def allocate(self,ans):
     self.X = self.df.drop(ans, axis=1,)
     self.y = self.df[ans]
-    return print("process success")
+    return print("allocated X and y")
   
   def split(self, ratio):
     self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X,self.y,test_size=ratio,random_state=42)
+    return print("Dataset split for testing and training")
+
+  def process(self,y,ratio):
+    print("reading Dataset")
+    read(self)
+    print("filtering Dataset for unuseable features")
+    filter(Self)
+    print("allocating X and y")
+    allocate(self,y)
+    print("splitting for testing and training")
+    split(self,ratio)

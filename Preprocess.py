@@ -17,19 +17,35 @@ class Process:
     self.dataset=pd.read_csv(self.path)
     return print("read success")
     
-  def clean(self):
+  def clean_column(self,target):
     for column in self.dataset.columns:
-        if column == target:
-            continue
+      if column == target:
+          continue
+      
+      unique_count = self.dataset[column].nunique()
+      unique_ratio = unique_count / rows
+     
+      if unique_ratio >= threshold:
+          self.dataset = self.dataset.drop(column, axis=1)
+          print(f"Dropped {column}")
+       
+    return print("column filter success")
+    
+  def clean_row(self,target,missing_limit=0.5):
+    self.dataset = self.dataset.dropna(subset=[target])
+    
+    feature_columns = self.dataset.columns.drop(target)
+    
+    missing_ratio = self.dataset[feature_columns].isna().mean(axis=1)
+    
+    self.dataset = self.dataset[missing_ratio <= missing_limit]
+    
+    self.dataset = self.dataset.drop_duplicates()
+    return print("row filter success")
 
-        unique_count = self.dataset[column].nunique()
-        unique_ratio = unique_count / rows
-
-        if unique_ratio >= threshold:
-            self.dataset = self.dataset.drop(column, axis=1)
-            print(f"Dropped {column}")
-          
-    return print("filter success")
+  def clean(self):
+    self.clean_column()
+    self.clean_row()
     
   def allocate(self,ans):
     self.X = self.dataset.drop(ans, axis=1,)
@@ -44,7 +60,7 @@ class Process:
     print("reading Dataset")
     self.read()
     print("filtering Dataset for unuseable features")
-    self.filter()
+    self.clean()
     print("allocating X and y")
     self.allocate(target)
     print("splitting for testing and training")

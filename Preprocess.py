@@ -54,8 +54,6 @@ class Process:
       self.dataset[column] = self.dataset[column].fillna(median_value)
     return print("filled missing entries")
 
-  def encode(self):
-    return print("turned text to numbers")
     
   def allocate(self,ans):
     self.X = self.dataset.drop(ans, axis=1,)
@@ -77,8 +75,6 @@ class Process:
     self.clean()
     print("attempting to fill missing data entries")
     self.fill()
-    print("turning text entries to numbers")
-    self.encode()
     print("allocating X and y")
     self.allocate(target)
     print("splitting for testing and training")

@@ -1,0 +1,4 @@
+Just to put this so i know what else to add
+
+A UI for the settings
+The ability to do predict() for one instance testing

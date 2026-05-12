@@ -3,24 +3,28 @@ from Preprocess import Process
 import os
 
 #THE PROCESS BLOCK#
+#Settings
 path = "data/student_performance_updated_1000.csv"
 feature_predict = "FinalGrade"
-test_ratio = "0.2"
+test_ratio = 0.2
+random_split=42
+random_train=42
+tree_size=100
 
 Pro=Process(path)
-Pro.process(feature_predict,test_ratio)
+Pro.process(feature_predict,test_ratio,random_split)
 
 #TRAINING BLOCK
-tree=RandomForestClassifier(n_estimators=100, random_state=42)
+tree=RandomForestClassifier(n_estimators=tree_size, random_state=random_train)
 
 model.fit(Pro.X_train, Pro.y_train)
 
+#OUTPUT BLOCK
 predict= model.predict(Pro.X_test)
 
 accuracy= model.accuracy(Pro.y_test,predict)
-#OUTPUT BLOCK
 
-# Image Block
+# Image Block for modeling
 plt.figure(figsize=(20,10)) 
 plot_tree(
   model.estimators_[0],

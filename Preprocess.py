@@ -47,13 +47,16 @@ class Process:
     self.clean_column()
     self.clean_row()
 
-  def fill(self):
+  def fill(self,target):
     feature_columns = self.dataset.columns.drop(target)
     for column in feature_columns:
-      median_value = self.dataset[column].median()
-      self.dataset[column] = self.dataset[column].fillna(median_value)
-    return print("filled missing entries")
-
+        if self.dataset[column].dtype == "object":
+            most_common = self.dataset[column].mode()[0]
+            self.dataset[column] = self.dataset[column].fillna(most_common)
+        else:
+            median_value = self.dataset[column].median()
+            self.dataset[column] = self.dataset[column].fillna(median_value)
+      return print("missing entries filled with median")
     
   def allocate(self,ans):
     self.X = self.dataset.drop(ans, axis=1,)
@@ -64,18 +67,18 @@ class Process:
     self.y = self.df[ans]
     return print("allocated X and y")
   
-  def split(self, ratio):
-    self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X,self.y,test_size=ratio,random_state=42)
+  def split(self, ratio,random):
+    self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X,self.y,test_size=ratio,random_state=random)
     return print("Dataset split for testing and training")
 
-  def process(self,target,ratio):
+  def process(self,target,ratio,random=42):
     print("reading Dataset")
     self.read()
     print("filtering Dataset for unuseable features")
     self.clean()
     print("attempting to fill missing data entries")
-    self.fill()
+    self.fill(target)
     print("allocating X and y")
     self.allocate(target)
     print("splitting for testing and training")
-    self.split(ratio)
+    self.split(ratio,random)

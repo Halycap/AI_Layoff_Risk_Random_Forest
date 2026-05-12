@@ -1,5 +1,6 @@
 from sklearn.ensemble import RandomForestClassifier
 from Preprocess import Process
+from sklearn.metrics import accuracy_score
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 

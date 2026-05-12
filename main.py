@@ -1,6 +1,7 @@
 from sklearn.ensemble import RandomForestClassifier
 from Preprocess import Process
-import os
+from sklearn.tree import plot_tree
+import matplotlib.pyplot as plt
 
 #THE PROCESS BLOCK#
 #Settings
@@ -20,9 +21,7 @@ tree=RandomForestClassifier(n_estimators=tree_size, random_state=random_train)
 tree.fit(Pro.X_train, Pro.y_train)
 
 #OUTPUT BLOCK
-predict= tree.predict(Pro.X_test)
-
-accuracy= tree.accuracy(Pro.y_test,predict)
+accuracy = tree.score(Pro.y_test,predict)
 
 # Image Block for modeling
 plt.figure(figsize=(20,10)) 
@@ -34,5 +33,5 @@ plot_tree(
   rounded=True,
   max_depth=3
 )
-plt.savefig("random_forest_tree.png", dpi=300, bbox_inches="tight)
+plt.savefig("random_forest_tree.png", dpi=300, bbox_inches="tight")
 plt.show()

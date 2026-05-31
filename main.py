@@ -22,8 +22,8 @@ tree=RandomForestClassifier(n_estimators=tree_size, random_state=random_train)
 tree.fit(Pro.X_train, Pro.y_train)
 
 #OUTPUT BLOCK
-accuracy = tree.score(Pro.y_test,predict)
-
+y_pred = tree.predict(Pro.X_test)
+accuracy = accuracy_score(Pro.y_test, y_pred)
 # Image Block for modeling
 plt.figure(figsize=(20,10)) 
 plot_tree(

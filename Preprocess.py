@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 class Process:
   def __init__(self, path):
     self.path=path
-    self.dataset=None
+    self.dataset=pd.read_csv(self.path)
     self.X=None
     self.y=None
     self.X_train = None
@@ -13,11 +13,8 @@ class Process:
     self.y_train = None
     self.y_test = None
     
-  def read(self):
-    self.dataset=pd.read_csv(self.path)
-    return print("read success")
-    
-  def clean_column(self,target):
+  def clean_column(self,target,treshold=0.8):
+    rows = len(self.dataset)
     for column in self.dataset.columns:
       if column == target:
           continue
@@ -72,8 +69,6 @@ class Process:
     return print("Dataset split for testing and training")
 
   def process(self,target,ratio,random=42):
-    print("reading Dataset")
-    self.read()
     print("filtering Dataset for unuseable features")
     self.clean()
     print("attempting to fill missing data entries")

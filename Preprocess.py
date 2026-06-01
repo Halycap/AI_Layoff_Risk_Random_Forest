@@ -40,9 +40,9 @@ class Process:
     self.dataset = self.dataset.drop_duplicates()
     return print("row filter success")
 
-  def clean(self):
-    self.clean_column()
-    self.clean_row()
+  def clean(self, target):
+    self.clean_column(target)
+    self.clean_row(target)
 
   def fill(self,target):
     feature_columns = self.dataset.columns.drop(target)
@@ -70,7 +70,7 @@ class Process:
 
   def process(self,target,ratio,random=42):
     print("filtering Dataset for unuseable features")
-    self.clean()
+    self.clean(target)
     print("attempting to fill missing data entries")
     self.fill(target)
     print("allocating X and y")

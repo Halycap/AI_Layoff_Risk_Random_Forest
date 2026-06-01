@@ -53,7 +53,7 @@ class Process:
         else:
             median_value = self.dataset[column].median()
             self.dataset[column] = self.dataset[column].fillna(median_value)
-      return print("missing entries filled with median")
+        return print("missing entries filled with median")
     
   def allocate(self,ans):
     self.X = self.dataset.drop(ans, axis=1,)

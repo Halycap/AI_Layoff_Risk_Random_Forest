@@ -13,7 +13,7 @@ class Process:
     self.y_train = None
     self.y_test = None
     
-  def clean_column(self,target,treshold=0.8):
+  def clean_column(self,target,threshold=0.8):
     rows = len(self.dataset)
     for column in self.dataset.columns:
       if column == target:

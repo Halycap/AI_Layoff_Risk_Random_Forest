@@ -3,16 +3,20 @@ from Preprocess import Process
 from sklearn.metrics import accuracy_score
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
+from pathlib import Path
+
 
 #THE PROCESS BLOCK#
 #Settings
-path = "data/student_performance_updated_1000.csv"
+BASE_DIR = Path(__file__).resolve().parent
+path = BASE_DIR / "data" / "student_performance_updated_1000.csv"
 feature_predict = "FinalGrade"
 test_ratio = 0.2
 random_split=42
 random_train=42
 tree_size=100
 
+Pro = Process(path)
 Pro=Process(path)
 Pro.process(feature_predict,test_ratio,random_split)
 

@@ -1,6 +1,7 @@
 #Where we put the data processing code#
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from pandas.api.types import is_numeric_dtype
 
 class Process:
   def __init__(self, path):
@@ -12,6 +13,19 @@ class Process:
     self.X_test = None
     self.y_train = None
     self.y_test = None
+  #This one is utils. but i dont wanna make a utils folder 0v0
+  def data_type_identifier(self, target, unique_threshold=10):
+    y = self.dataset[target]
+    unique_count = y.nunique()
+    is_numeric = is_numeric_dtype(y)
+
+    if not is_numeric:
+        return "classifier", False
+
+    if unique_count <= unique_threshold:
+        return "classifier", True
+
+    return "regressor", True
     
   def clean_column(self,target,threshold=0.8):
     rows = len(self.dataset)
@@ -58,10 +72,10 @@ class Process:
   def allocate(self,ans):
     self.X = self.dataset.drop(ans, axis=1,)
 
-    # converts text into numbers
+    # converts text into numbers. Model, why do u need numbers.
     self.X = pd.get_dummies(self.X)
     
-    self.y = self.df[ans]
+    self.y = self.dataset[ans]
     return print("allocated X and y")
   
   def split(self, ratio,random):
@@ -71,9 +85,16 @@ class Process:
   def process(self,target,ratio,random=42):
     print("filtering Dataset for unuseable features")
     self.clean(target)
+
     print("attempting to fill missing data entries")
     self.fill(target)
+
+    print("filtering weakly correlated numeric features")
+    self.correlation_filter(target)
+
     print("allocating X and y")
     self.allocate(target)
+
     print("splitting for testing and training")
     self.split(ratio,random)
+

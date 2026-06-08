@@ -10,14 +10,17 @@ from pathlib import Path
 #Settings
 BASE_DIR = Path(__file__).resolve().parent
 path = BASE_DIR / "data" / "student_performance_updated_1000.csv"
-feature_predict = "FinalGrade"
+feature_predict = "ExtracurricularActivities"
+missing_limit=0.9
+correlation=0.5
 test_ratio = 0.2
 random_split=42
 random_train=42
 tree_size=100
 
 Pro = Process(path)
-Pro.process(feature_predict,test_ratio,random_split)
+Pro.process(feature_predict,test_ratio,random_split,correlation,missing_limit)
+
 
 #TRAINING BLOCK
 if Pro.data_type_identifier(feature_predict) == "category":
@@ -43,7 +46,6 @@ else:
     print("R² Score:", r2)
 
 # Image Block for modeling
-# Image Block for modeling
 if Pro.data_type_identifier(feature_predict) == "category":
     class_names = [str(c) for c in tree.classes_]
 else:
@@ -61,4 +63,7 @@ plot_tree(
 )
 
 plt.savefig("random_forest_tree.png", dpi=300, bbox_inches="tight")
-plt.show()
+
+plt.show(block=False)
+plt.pause(20)
+plt.close()

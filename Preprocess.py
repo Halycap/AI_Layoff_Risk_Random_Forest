@@ -14,18 +14,15 @@ class Process:
     self.y_train = None
     self.y_test = None
   #This one is utils. but i dont wanna make a utils folder 0v0
-  def data_type_identifier(self, target, unique_threshold=10):
+  
+  def data_type_identifier(self, target):
     y = self.dataset[target]
     unique_count = y.nunique()
     is_numeric = is_numeric_dtype(y)
 
     if not is_numeric:
-        return "classifier", False
-
-    if unique_count <= unique_threshold:
-        return "classifier", True
-
-    return "regressor", True
+        return "category"
+    return "value"
     
   def clean_column(self,target,threshold=0.8):
     rows = len(self.dataset)
@@ -42,7 +39,7 @@ class Process:
        
     return print("column filter success")
     
-  def clean_row(self,target,missing_limit=0.5):
+  def clean_row(self,target,missing_limit=0.1):
     self.dataset = self.dataset.dropna(subset=[target])
     
     feature_columns = self.dataset.columns.drop(target)
@@ -54,20 +51,49 @@ class Process:
     self.dataset = self.dataset.drop_duplicates()
     return print("row filter success")
 
-  def clean(self, target):
+  def clean(self, target,missing_limit):
     self.clean_column(target)
-    self.clean_row(target)
+    self.clean_row(target,missing_limit)
 
-  def fill(self,target):
+  def fill(self, target):
     feature_columns = self.dataset.columns.drop(target)
+
     for column in feature_columns:
-        if self.dataset[column].dtype == "object":
-            most_common = self.dataset[column].mode()[0]
-            self.dataset[column] = self.dataset[column].fillna(most_common)
-        else:
+        if is_numeric_dtype(self.dataset[column]):
             median_value = self.dataset[column].median()
             self.dataset[column] = self.dataset[column].fillna(median_value)
-        return print("missing entries filled with median")
+        else:
+            most_common = self.dataset[column].mode()
+
+            if not most_common.empty:
+                self.dataset[column] = self.dataset[column].fillna(most_common[0])
+
+    return print("missing entries filled")
+  
+  def correlate(self, target, threshold):
+    target_type = self.data_type_identifier(target)
+
+    # Only use correlation filter for regression/value targets
+    if target_type != "value":
+        print("correlation filter skipped for target")
+        return
+
+    numeric_columns = []
+
+    for column in self.dataset.columns:
+        if self.data_type_identifier(column) == "value":
+            numeric_columns.append(column)
+
+    correlations = self.dataset[numeric_columns].corr()[target].abs()
+
+    weak_columns = correlations[correlations < threshold].index
+
+    # Never drop the target column
+    weak_columns = weak_columns.drop(target, errors="ignore")
+
+    self.dataset = self.dataset.drop(columns=weak_columns)
+
+    print(f"Dropped weakly correlated columns: {list(weak_columns)}")
     
   def allocate(self,ans):
     self.X = self.dataset.drop(ans, axis=1,)
@@ -82,15 +108,15 @@ class Process:
     self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X,self.y,test_size=ratio,random_state=random)
     return print("Dataset split for testing and training")
 
-  def process(self,target,ratio,random=42):
+  def process(self,target,ratio,random=42,correlation=0.1,missing_limit=0.5):
     print("filtering Dataset for unuseable features")
-    self.clean(target)
+    self.clean(target,missing_limit)
 
     print("attempting to fill missing data entries")
     self.fill(target)
 
-    print("filtering weakly correlated numeric features")
-    self.correlation_filter(target)
+    print("correlation filter")
+    self.correlate(target,correlation)
 
     print("allocating X and y")
     self.allocate(target)

@@ -5,25 +5,28 @@ from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-
-#THE PROCESS BLOCK#
 #Settings
 BASE_DIR = Path(__file__).resolve().parent
-path = BASE_DIR / "data" / "student_performance_updated_1000.csv"
-feature_predict = "ExtracurricularActivities"
-missing_limit=0.9
-correlation=0.5
-test_ratio = 0.2
-random_split=42
-random_train=42
-tree_size=100
+#for testing
+#step 1, change the path name with the dataset path
+path = BASE_DIR / "data" / "ai-impact-jobs-layoff-risk-dataset.csv"
+#step 2, change the feature
+feature_predict = "Layoff_Risk"
+#step 3, mess with the settings
+missing_limit=0.9 #clears all rows that are missing values
+correlation=0.5 #filters all that correlates below this range
+test_ratio = 0.2 #splits the data to have this percent of test values
+random_split=42 #random seed for split 
+random_train=42 #random seed for train
+tree_size=100 #how big the tree is
 
-Pro = Process(path)
-Pro.process(feature_predict,test_ratio,random_split,correlation,missing_limit)
-
+#DATA PROCESSING BLOCK
+Pro = Process(path) #Calls the custom class i made built for data processing
+Pro.process(feature_predict,test_ratio,random_split,correlation,missing_limit) #yes its a lot. more settings = more stuff to write
+data_type = Pro.data_type_identifier(feature_predict) #for regressor or classifier model logic
 
 #TRAINING BLOCK
-if Pro.data_type_identifier(feature_predict) == "category":
+if data_type == "category":
     tree = RandomForestClassifier(n_estimators=tree_size, random_state=random_train)
     print("classifier")
 else:
@@ -35,7 +38,7 @@ tree.fit(Pro.X_train, Pro.y_train)
 #OUTPUT BLOCK
 #Prediction test. WIll kill this dual model system
 y_pred = tree.predict(Pro.X_test)
-if Pro.data_type_identifier(feature_predict) == "category":
+if data_type == "category":
     accuracy = accuracy_score(Pro.y_test, y_pred)
     print("Accuracy:", accuracy)
 else:
@@ -46,7 +49,7 @@ else:
     print("R² Score:", r2)
 
 # Image Block for modeling
-if Pro.data_type_identifier(feature_predict) == "category":
+if data_type == "category":
     class_names = [str(c) for c in tree.classes_]
 else:
     class_names = None

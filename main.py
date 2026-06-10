@@ -56,17 +56,18 @@ else:
 
 plt.figure(figsize=(20,10)) 
 
-plot_tree(
-    tree.estimators_[0],
-    feature_names=Pro.X.columns,
-    class_names=class_names,
-    filled=True,
-    rounded=True,
-    max_depth=3
-)
+for i in range(5):
+    plt.figure(figsize=(20, 10))
 
-plt.savefig("random_forest_tree.png", dpi=300, bbox_inches="tight")
+    plot_tree(
+        tree.estimators_[i],
+        feature_names=Pro.X.columns,
+        class_names=class_names,
+        filled=True,
+        rounded=True,
+        max_depth=3
+    )
 
-plt.show(block=False)
-plt.pause(20)
-plt.close()
+    plt.savefig(f"random_forest_tree_{i}.png", dpi=300, bbox_inches="tight")
+    plt.close()
+

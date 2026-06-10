@@ -19,6 +19,7 @@ test_ratio = 0.2 #splits the data to have this percent of test values
 random_split=42 #random seed for split 
 random_train=42 #random seed for train
 tree_size=100 #how big the tree is
+result_mode="test" #test or present, test doesnt run the tree plot and present generates the tree models
 
 #DATA PROCESSING BLOCK
 Pro = Process(path) #Calls the custom class i made built for data processing
@@ -56,18 +57,19 @@ else:
 
 plt.figure(figsize=(20,10)) 
 
-for i in range(5):
-    plt.figure(figsize=(20, 10))
-
-    plot_tree(
-        tree.estimators_[i],
-        feature_names=Pro.X.columns,
-        class_names=class_names,
-        filled=True,
-        rounded=True,
-        max_depth=3
-    )
-
-    plt.savefig(f"random_forest_tree_{i}.png", dpi=300, bbox_inches="tight")
-    plt.close()
+if result_mode="present":
+    for i in range(5):
+        plt.figure(figsize=(20, 10))
+    
+        plot_tree(
+            tree.estimators_[i],
+            feature_names=Pro.X.columns,
+            class_names=class_names,
+            filled=True,
+            rounded=True,
+            max_depth=3
+        )
+    
+        plt.savefig(f"random_forest_tree_{i}.png", dpi=300, bbox_inches="tight")
+        plt.close()
 

@@ -1,3 +1,6 @@
+
+###This graph answers, which variables have the biggest influence on layoff_risk###
+
 importance = tree.feature_importances_
 
 features = pd.DataFrame({
@@ -34,6 +37,7 @@ plt.show()
 
 
 
+###This shows whether the forest contains shallow or deep trees###
 
 depths = [est.get_depth() for est in tree.estimators_]
 

@@ -12,13 +12,6 @@ The dataset contains information about students such as:
 - lifestyle information
 - and other features related to student performance
 
-### Dataset Name
-Student Performance Dataset
-
-You can download the dataset here:
-
-https://kaggle.com
-
 This project uses:
 - Python
 - Pandas
@@ -31,7 +24,7 @@ Thanks for checking out our project. This guide will walk you through getting th
 
 Before we start, you just need three things:
 1. Python (version 3.8 or newer) - this is what our code is written in
-2. Git - just a small tool to grab the code from GitHub
+2. Git - just a small tool to grab the code from GitHub(Or download the code from the repository and running it locally)
 3. A code editor (not required but nice to have) - try VS Code if you want
 
 # Getting Python

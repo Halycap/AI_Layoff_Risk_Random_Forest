@@ -1,5 +1,6 @@
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from Preprocess import Process
+from additional_code_for_good_graphs import importance_graph
 from sklearn.metrics import accuracy_score, mean_absolute_error, r2_score
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
@@ -19,7 +20,7 @@ test_ratio = 0.2 #splits the data to have this percent of test values
 random_split=42 #random seed for split 
 random_train=42 #random seed for train
 tree_size=100 #how big the tree is
-result_mode="test" #test or present, test doesnt run the tree plot and present generates the tree models
+result_mode="present" #test or present, test doesnt run the tree plot and present generates the tree models
 
 #DATA PROCESSING BLOCK
 Pro = Process(path) #Calls the custom class i made built for data processing
@@ -72,4 +73,7 @@ if result_mode="present":
     
         plt.savefig(f"random_forest_tree_{i}.png", dpi=300, bbox_inches="tight")
         plt.close()
+    importance_graph(tree,Pro)
+
+
 
